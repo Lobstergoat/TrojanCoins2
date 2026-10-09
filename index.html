@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TrojanCoins — Launch one coin. Ship another.</title>
+<title>TrojanCoins — Launch one coin. Reveal another.</title>
 <meta name="description" content="Launch a meme coin on pump.fun that arrives in disguise and turns into a different meme the moment it hits the market cap you set.">
 <meta name="theme-color" content="#0b0907">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0907'/%3E%3Cpath d='M6 15h14l2-7 5 2-1 6-2 2v8h-3v-6H12v6H9v-8l-3-2z' fill='%23d9622b'/%3E%3C/svg%3E">
@@ -30,11 +30,13 @@
 <main>
 <!-- ============ 0 · GATE (hero) ============ -->
 <section class="hero" id="gate" data-label="Gate" data-num="0">
+  <canvas id="horse" role="img" aria-label="A stippled orange drawing of a wooden horse on wheels"></canvas>
+  <div class="wordmark" aria-hidden="true">TROJANCOINS</div>
   <div class="hero-copy">
     <p class="eyebrow rv"><span class="pulse"></span>Launchpad on Solana · settles on pump.fun</p>
-    <h1 class="display" aria-label="Launch one coin. Ship another.">
+    <h1 class="display" aria-label="Launch one coin. Reveal another.">
       <span class="ln"><span class="w">Launch</span> <span class="w">one</span> <span class="w">coin.</span></span>
-      <span class="ln"><em><span class="w">Ship</span> <span class="w">another.</span></em></span>
+      <span class="ln"><span class="w"><em>Reveal</em></span> <span class="w">another.</span></span>
     </h1>
     <p class="lede rv">Every coin on TrojanCoins arrives in disguise. The moment it reaches the market cap you chose, it sheds its name, ticker, art and story and walks out of the horse as a different meme.</p>
     <div class="cta rv">
@@ -46,20 +48,6 @@
       <div><dt>Opened</dt><dd data-stat="opened">—</dd></div>
       <div><dt>Coins launched</dt><dd data-stat="total">—</dd></div>
     </dl>
-  </div>
-
-  <div class="hero-horse">
-    <div class="bubble" id="bubble" role="status" aria-live="polite"><span id="bubble-text">Nothing to see here.</span></div>
-    <canvas id="horse" role="img" aria-label="A large ASCII wooden horse on wheels, slowly turning. Drag to rotate it; click its head, body, belly, legs or tail to navigate."></canvas>
-    <div class="tip" id="tip" aria-hidden="true"></div>
-    <ul class="parts" id="parts" aria-label="Navigate by horse anatomy">
-      <li><button type="button" data-part="1" data-go="#forge"><b>Head</b><span>Launch</span></button></li>
-      <li><button type="button" data-part="0" data-go="#how"><b>Body</b><span>How it works</span></button></li>
-      <li><button type="button" data-part="4" data-go="#reveals"><b>Belly</b><span>Reveals</span></button></li>
-      <li><button type="button" data-part="2" data-go="#gates"><b>Legs</b><span>The board</span></button></li>
-      <li><button type="button" data-part="3" data-go="#faq"><b>Tail</b><span>Fine print</span></button></li>
-    </ul>
-    <p class="hint"><span>drag to turn</span><span>click the horse to travel</span></p>
   </div>
 </section>
 
@@ -298,7 +286,6 @@
 <footer class="foot">
   <div class="marquee" aria-hidden="true"><div class="mq"><span>SEALED // DISGUISED // WHEELED IN // WAITING // OPENED // REVEALED // </span><span>SEALED // DISGUISED // WHEELED IN // WAITING // OPENED // REVEALED // </span></div></div>
   <div class="foot-in">
-    <div class="giant" aria-hidden="true">TROJANCOINS</div>
     <div class="foot-cols">
       <p class="motto">Beware of Greeks bearing coins.</p>
       <nav aria-label="Social"><a href="#" rel="noopener">X</a><a href="#" rel="noopener">Telegram</a><a href="https://pump.fun" target="_blank" rel="noopener">pump.fun</a></nav>
@@ -332,7 +319,7 @@
 
 <script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js" defer></script>
 <script src="js/config.js"></script>
-<script src="js/horse.js"></script>
+<script src="js/stipple.js"></script>
 <script src="js/wallet.js"></script>
 <script src="js/launch.js"></script>
 <script src="js/app.js"></script>

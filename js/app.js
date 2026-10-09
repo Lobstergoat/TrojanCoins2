@@ -64,68 +64,6 @@
     items.forEach(function (i, n) { i.style.setProperty('--d', (n % 4) * 70 + 'ms'); io.observe(i); });
   }
 
-  /* ---------- horse ---------- */
-  var QUIPS = ['Nothing to see here.', 'Definitely just a horse.', 'Please do not look in the belly.', 'Wheels are for decoration.', 'I have never met a Greek.', 'Strong wood. Weak secrets.', 'Gift horses are never inspected.'];
-  var PART = { 0: { n: 'Body', to: '#how', say: 'Three acts. All of them happen inside me.', tip: 'How it works' }, 1: { n: 'Head', to: '#forge', say: 'Names, tickers, art. I do the talking.', tip: 'Launch a coin' }, 2: { n: 'Legs', to: '#gates', say: 'These wheels have seen a siege or two.', tip: 'The board' }, 3: { n: 'Tail', to: '#faq', say: 'The fine print is back here.', tip: 'Fine print' }, 4: { n: 'Belly', to: '#reveals', say: 'Careful. Something is knocking.', tip: 'Reveals' } };
-  var view, bubbleEl, bubbleTxt, tipEl, bubbleTimer, quipI = 0, headClicks = 0;
-
-  function say(t, hold) {
-    if (!bubbleTxt) return;
-    bubbleEl.classList.remove('pop'); void bubbleEl.offsetWidth; bubbleEl.classList.add('pop');
-    bubbleTxt.textContent = t;
-    clearTimeout(bubbleTimer);
-    if (!hold) bubbleTimer = setTimeout(idleQuip, 6500);
-  }
-  function idleQuip() { quipI = (quipI + 1) % QUIPS.length; say(QUIPS[quipI]); }
-
-  function initHorse() {
-    var cv = $('#horse'); if (!cv || !root.TCHorse) return;
-    bubbleEl = $('#bubble'); bubbleTxt = $('#bubble-text'); tipEl = $('#tip');
-    var wrap = cv.parentNode;
-    view = new TCHorse.View(cv, {
-      onpart: function (p) {
-        var info = PART[p];
-        cv.style.cursor = info ? 'pointer' : 'grab';
-        $$('#parts button').forEach(function (b) { b.classList.toggle('on', info && +b.dataset.part === p); });
-        if (info) { say(info.say, true); tipEl.textContent = info.n + ' → ' + info.tip; tipEl.classList.add('on'); }
-        else { tipEl.classList.remove('on'); bubbleTimer = setTimeout(idleQuip, 2500); }
-      },
-      onclickpart: function (p) {
-        if (p === 4) { openHatch(true); return; }
-        var info = PART[p]; if (!info) return;
-        if (p === 1) {
-          headClicks++;
-          if (headClicks >= 7) { headClicks = 0; say('NEIGH.', true); cv.classList.add('shake'); setTimeout(function () { cv.classList.remove('shake'); }, 600); return; }
-        }
-        go(info.to);
-      }
-    });
-    TC.view = view;
-    cv.addEventListener('pointermove', function (e) {
-      var r = wrap.getBoundingClientRect();
-      tipEl.style.transform = 'translate(' + (e.clientX - r.left + 14) + 'px,' + (e.clientY - r.top + 14) + 'px)';
-    });
-    // anatomy chips mirror the hover state
-    $$('#parts button').forEach(function (b) {
-      var p = +b.dataset.part;
-      b.addEventListener('mouseenter', function () { view.forced = p; say(PART[p].say, true); });
-      b.addEventListener('focus', function () { view.forced = p; });
-      b.addEventListener('mouseleave', function () { view.forced = 255; bubbleTimer = setTimeout(idleQuip, 2000); });
-      b.addEventListener('blur', function () { view.forced = 255; });
-      b.addEventListener('click', function (e) { if (p === 4) { e.preventDefault(); e.stopPropagation(); openHatch(true); } });
-    });
-    bubbleTimer = setTimeout(idleQuip, 5200);
-  }
-
-  function openHatch(thenGo) {
-    if (!view || view.open) return;
-    view.open = true;
-    say('...', true);
-    var n = 0, iv = setInterval(function () { bubbleTxt.textContent = '$' + Array.apply(null, Array(5)).map(function () { return rnd(GLYPHS); }).join('') + ' is stepping out'; if (++n > 9) clearInterval(iv); }, 90);
-    setTimeout(function () { if (thenGo) go('#reveals'); }, 900);
-    setTimeout(function () { view.open = false; say('Nothing happened. Move along.'); }, 3400);
-  }
-
   /* ---------- siege track (scroll nav) ---------- */
   var secs = [], trackEls = {};
   var ROMAN = ['0', 'I', 'II', 'III', 'IV', 'V', 'VI'];
@@ -182,8 +120,7 @@
     { t: 'Meet the crew', k: 'crew soldiers characters', fn: function () { go('#crew'); } },
     { t: 'Fine print', k: 'faq questions help', fn: function () { go('#faq'); } },
     { t: 'Connect / disconnect Phantom', k: 'wallet phantom connect', fn: function () { var w = root.TCWallet.get(); w.address ? root.TCWallet.disconnect() : root.TCWallet.connect(); } },
-    { t: 'Open pump.fun', k: 'pump fun trade', fn: function () { root.open('https://pump.fun', '_blank', 'noopener'); } },
-    { t: 'Open the belly', k: 'hatch secret', fn: function () { go('#gate'); setTimeout(function () { openHatch(false); }, 600); } }
+    { t: 'Open pump.fun', k: 'pump fun trade', fn: function () { root.open('https://pump.fun', '_blank', 'noopener'); } }
   ];
   var pal, palQ, palList, palSel = 0, palShown = [], palPrev;
   function palRender() {
@@ -405,10 +342,6 @@
   /* ---------- boot ---------- */
   function boot() {
     document.body.classList.add('ready');
-    var go1 = function () { initHorse(); };
-    if (document.fonts && document.fonts.load) {
-      Promise.race([document.fonts.load('12px "JetBrains Mono"'), new Promise(function (r) { setTimeout(r, 1500); })]).then(go1, go1);
-    } else go1();
     initCrew(); observeReveals(); initTrack(); initPalette(); initViz(); initBoard();
     if (location.hash && $(location.hash)) setTimeout(function () { go(location.hash); }, 400);
   }
