@@ -61,7 +61,7 @@ window.TC_HOOKS = {
   async listCoins() {
     var cfg = window.TC_CONFIG.api;
     var url = cfg.base ? cfg.base + cfg.coins : 'data/coins.json';
-    var res = await fetch(url, { cache: 'no-store' });
+    var res = await fetch(url + (cfg.base ? '' : '?t=' + Date.now()), { cache: 'no-store' });
     if (!res.ok) throw new Error('coins ' + res.status);
     return res.json();
   }

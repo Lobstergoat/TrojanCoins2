@@ -65,7 +65,7 @@
     root.addEventListener('resize', resize);
     root.addEventListener('pointermove', function (e) { var r = cv.getBoundingClientRect(); mouse = { x: e.clientX - r.left, y: e.clientY - r.top }; });
     if (root.IntersectionObserver) new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }).observe(cv);
-    fetch('data/horse.json').then(function (r) { return r.json(); }).then(function (d) {
+    fetch('data/horse.json?v=20261009', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
       art = d; layout(); t0 = performance.now(); root.requestAnimationFrame(frame);
     }).catch(function () {});
   }

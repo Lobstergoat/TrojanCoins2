@@ -256,6 +256,7 @@
       '<div class="empty"><pre aria-hidden="true">  .-----.\n  | ... |\n  \'-----\'</pre><p>' + (q ? 'No launched coin matches that.' : 'Be the first to deploy your trojan.') + '</p>' + (q ? '' : '<a class="btn btn-primary" href="#forge">Launch a coin <span aria-hidden="true">\u2192</span></a>') + '</div>';
     $$('#board .bar i').forEach(function (i) { requestAnimationFrame(function () { i.classList.add('go'); }); });
   }
+  var EXAMPLES = [{"name":"Sir Barksalot","symbol":"BARK","revealCap":69000,"revealed":{"name":"Mochi Monk","symbol":"MOCHI","description":"Inner peace, one soft bite at a time."}},{"name":"Moon Toast","symbol":"TOAST","revealCap":100000,"revealed":{"name":"Froge Prime","symbol":"FROGE","description":"Ribbit. Then ascend."}},{"name":"Gigachad Duck","symbol":"QUACK","revealCap":250000,"revealed":{"name":"Pepito the Bold","symbol":"PEPITO","description":"Small frog, loud opinions."}},{"name":"Wizard Cat","symbol":"MEOWZ","revealCap":25000,"revealed":{"name":"Nyano","symbol":"NYANO","description":"Rainbow trail. No questions."}},{"name":"Soggy Biscuit","symbol":"SOGGY","revealCap":500000,"revealed":{"name":"Bonko the Mighty","symbol":"BONKO","description":"Hits first. Apologises never."}},{"name":"Tiny Titan","symbol":"TITAN","revealCap":1000000,"revealed":{"name":"Lord Pickle","symbol":"BRINE","description":"Preserved nobility. Slightly sour."}},{"name":"Dr. Nap","symbol":"NAP","revealCap":25000,"revealed":{"name":"Captain Crumb","symbol":"CRUMB","description":"Sails the kitchen floor at dawn."}},{"name":"Baron Beans","symbol":"BEAN","revealCap":69000,"revealed":{"name":"Gigabrain Goose","symbol":"HONK","description":"Thinks big. Honks bigger."}}];
   function renderHall(list) {
     $('#hall').innerHTML = list.map(function (c) {
       var r = c.revealed;
@@ -278,7 +279,7 @@
     root.TC_HOOKS.listCoins().then(function (d) { coins = d || []; }).catch(function () { coins = []; }).then(function () {
       renderBoard(); stats(); layoutTicks();
     });
-    fetch('data/examples.json').then(function (r) { return r.json(); }).then(function (d) { renderHall(d); layoutTicks(); }).catch(function () {});
+    renderHall(EXAMPLES);
     $('#board-q').addEventListener('input', function (e) { query = e.target.value.trim(); renderBoard(); });
     $$('[data-sort]').forEach(function (b) { b.addEventListener('click', function () {
       sortBy = b.dataset.sort; $$('[data-sort]').forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); }); renderBoard();
@@ -326,7 +327,7 @@
   /* ---------- boot ---------- */
   function boot() {
     document.body.classList.add('ready');
-    initCrew(); observeReveals(); initTrack(); initPalette(); initViz(); initBoard();
+    [initCrew, observeReveals, initTrack, initPalette, initViz, initBoard].forEach(function (fn) { try { fn(); } catch (e) { console.error(fn.name, e); } });
     if (location.hash && $(location.hash)) setTimeout(function () { go(location.hash); }, 400);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
