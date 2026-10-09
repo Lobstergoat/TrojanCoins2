@@ -115,8 +115,8 @@
     { t: 'Home — the gate', k: 'home hero top', fn: function () { go('#gate'); } },
     { t: 'How it works', k: 'how act steps', fn: function () { go('#how'); } },
     { t: 'Launch a coin', k: 'launch forge create new coin', fn: function () { go('#forge'); setTimeout(function () { var n = $('#f-name'); n && n.focus({ preventScroll: true }); }, 700); } },
-    { t: 'The board — waiting at the gates', k: 'board gates sealed list', fn: function () { go('#gates'); } },
-    { t: 'Reveals — what came out', k: 'reveals opened hall belly', fn: function () { go('#reveals'); } },
+    { t: 'Example coins', k: 'examples flip reveal cards', fn: function () { go('#examples'); } },
+    { t: 'Launched coins', k: 'launched board live list', fn: function () { go('#launched'); } },
     { t: 'Meet the crew', k: 'crew soldiers characters', fn: function () { go('#crew'); } },
     { t: 'Fine print', k: 'faq questions help', fn: function () { go('#faq'); } },
     { t: 'Connect / disconnect Phantom', k: 'wallet phantom connect', fn: function () { var w = root.TCWallet.get(); w.address ? root.TCWallet.disconnect() : root.TCWallet.connect(); } },
@@ -236,34 +236,35 @@
   /* ---------- board + reveals ---------- */
   var coins = [], sortBy = 'near', query = '';
   function coinLink(c) { return c.mint ? root.TC_CONFIG.pump.coinUrl + c.mint : 'https://pump.fun'; }
-  function cardSealed(c) {
-    var pct = Math.min(100, (c.marketCap / c.revealCap) * 100), near = pct >= 85;
-    return '<article class="cc' + (near ? ' near' : '') + '">' +
-      '<div class="cc-art">' + TC.avatar(c.name + c.symbol, 72) + '<i class="seal" aria-hidden="true">▣</i></div>' +
-      '<div class="cc-body"><div class="cc-nm"><b>' + esc(c.name) + '</b><span>$' + esc(c.symbol) + '</span></div>' +
-      '<p>' + esc(c.description) + '</p>' +
+  function cardLaunched(c) {
+    var opened = c.status === 'opened' && c.revealed;
+    var pct = opened ? 100 : Math.min(100, (c.marketCap / c.revealCap) * 100), near = !opened && pct >= 85;
+    return '<article class="cc' + (near ? ' near' : '') + (opened ? ' done' : '') + '">' +
+      '<div class="cc-art">' + TC.avatar((opened ? c.revealed.name + c.revealed.symbol : c.name + c.symbol), 72) + (opened ? '' : '<i class="seal" aria-hidden="true">\u25a3</i>') + '</div>' +
+      '<div class="cc-body"><div class="cc-nm"><b>' + esc(opened ? c.revealed.name : c.name) + '</b><span>$' + esc(opened ? c.revealed.symbol : c.symbol) + '</span></div>' +
+      '<p>' + esc(opened ? c.revealed.description : c.description) + '</p>' +
       '<div class="bar"><i style="--w:' + pct.toFixed(1) + '%"></i></div>' +
-      '<div class="cc-nums"><span>' + money(c.marketCap) + ' <small>now</small></span><span>' + (near ? '<em>almost open</em> · ' : '') + 'opens ' + money(c.revealCap) + '</span></div></div>' +
-      '<a class="cc-go" href="' + esc(coinLink(c)) + '" target="_blank" rel="noopener" aria-label="Trade ' + esc(c.name) + ' on pump.fun">Trade ↗</a></article>';
+      '<div class="cc-nums"><span>' + money(c.marketCap) + ' <small>now</small></span><span>' + (opened ? '<em>opened</em> \u00b7 was ' + esc(c.name) : (near ? '<em>almost open</em> \u00b7 ' : '') + 'opens ' + money(c.revealCap)) + '</span></div></div>' +
+      '<a class="cc-go" href="' + esc(coinLink(c)) + '" target="_blank" rel="noopener" aria-label="Trade ' + esc(c.name) + ' on pump.fun">Trade \u2197</a></article>';
   }
   function renderBoard() {
     var q = query.toLowerCase();
-    var list = coins.filter(function (c) { return c.status !== 'opened' && (!q || (c.name + ' ' + c.symbol).toLowerCase().indexOf(q) > -1); });
+    $('#board-tools').hidden = !coins.length;
+    var list = coins.filter(function (c) { return !q || (c.name + ' ' + c.symbol).toLowerCase().indexOf(q) > -1; });
     list.sort(function (a, b) { return sortBy === 'new' ? new Date(b.created) - new Date(a.created) : (b.marketCap / b.revealCap) - (a.marketCap / a.revealCap); });
-    $('#board').innerHTML = list.length ? list.map(cardSealed).join('') :
-      '<div class="empty"><pre aria-hidden="true">  .-----.\n  | ... |\n  \'-----\'</pre><p>' + (q ? 'No sealed coin matches that.' : 'The gates are quiet. Be the first to wheel one in.') + '</p><a class="btn btn-ghost" href="#forge">Launch a coin</a></div>';
+    $('#board').innerHTML = list.length ? list.map(cardLaunched).join('') :
+      '<div class="empty"><pre aria-hidden="true">  .-----.\n  | ... |\n  \'-----\'</pre><p>' + (q ? 'No launched coin matches that.' : 'Be the first to deploy your trojan.') + '</p>' + (q ? '' : '<a class="btn btn-primary" href="#forge">Launch a coin <span aria-hidden="true">\u2192</span></a>') + '</div>';
     $$('#board .bar i').forEach(function (i) { requestAnimationFrame(function () { i.classList.add('go'); }); });
   }
-  function renderHall() {
-    var list = coins.filter(function (c) { return c.status === 'opened' && c.revealed; });
-    $('#hall').innerHTML = list.length ? list.map(function (c) {
+  function renderHall(list) {
+    $('#hall').innerHTML = list.map(function (c) {
       var r = c.revealed;
       return '<button type="button" class="flip" aria-pressed="false" aria-label="Turn ' + esc(c.name) + ' card">' +
         '<span class="flip-in">' +
-        '<span class="side a"><span class="tag">Disguise</span><span class="ph">' + TC.avatar(c.name + c.symbol, 96) + '</span><b>' + esc(c.name) + '</b><em>$' + esc(c.symbol) + '</em><small>opened at ' + money(c.revealCap) + '</small></span>' +
+        '<span class="side a"><span class="tag">Disguise</span><span class="ph">' + TC.avatar(c.name + c.symbol, 96) + '</span><b>' + esc(c.name) + '</b><em>$' + esc(c.symbol) + '</em><small>opens at ' + money(c.revealCap) + '</small></span>' +
         '<span class="side b"><span class="tag hot">Revealed</span><span class="ph">' + TC.avatar(r.name + r.symbol, 96) + '</span><b>' + esc(r.name) + '</b><em>$' + esc(r.symbol) + '</em><small>' + esc(r.description) + '</small></span>' +
         '</span></button>';
-    }).join('') : '<div class="empty"><pre aria-hidden="true">  .-----.\n  |  ?  |\n  \'-----\'</pre><p>No belly has opened yet. The first reveal will appear here.</p></div>';
+    }).join('');
   }
   function stats() {
     var s = coins.filter(function (c) { return c.status !== 'opened'; }).length, o = coins.length - s;
@@ -275,8 +276,9 @@
   }
   function initBoard() {
     root.TC_HOOKS.listCoins().then(function (d) { coins = d || []; }).catch(function () { coins = []; }).then(function () {
-      renderBoard(); renderHall(); stats(); layoutTicks();
+      renderBoard(); stats(); layoutTicks();
     });
+    fetch('data/examples.json').then(function (r) { return r.json(); }).then(function (d) { renderHall(d); layoutTicks(); }).catch(function () {});
     $('#board-q').addEventListener('input', function (e) { query = e.target.value.trim(); renderBoard(); });
     $$('[data-sort]').forEach(function (b) { b.addEventListener('click', function () {
       sortBy = b.dataset.sort; $$('[data-sort]').forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); }); renderBoard();

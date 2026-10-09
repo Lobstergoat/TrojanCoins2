@@ -243,16 +243,30 @@
 
 <div class="meander" aria-hidden="true"></div>
 
-<!-- ============ III · GATES (board) ============ -->
-<section class="sec" id="gates" data-label="Gates" data-num="III">
+<!-- ============ III · EXAMPLES ============ -->
+<section class="sec reveals" id="examples" data-label="Examples" data-num="III">
   <header class="sec-head rv">
     <span class="num">III</span>
     <div>
-      <h2>Waiting at <em>the gates.</em></h2>
-      <p>Every sealed coin and how close it is to opening. Watch the bars. Pick your moment.</p>
+      <h2>Example <em>coins.</em></h2>
+      <p>This is how a coin plays out. Hover or tap a card to turn it from the disguise it launched in to what stepped out of the belly.</p>
     </div>
   </header>
-  <div class="board-tools rv">
+  <div class="hall" id="hall"></div>
+</section>
+
+<div class="meander" aria-hidden="true"></div>
+
+<!-- ============ IV · LAUNCHED ============ -->
+<section class="sec" id="launched" data-label="Launched" data-num="IV">
+  <header class="sec-head rv">
+    <span class="num">IV</span>
+    <div>
+      <h2>Launched <em>coins.</em></h2>
+      <p>Every coin launched through TrojanCoins, and how close each one is to opening its belly.</p>
+    </div>
+  </header>
+  <div class="board-tools rv" id="board-tools" hidden>
     <label class="search"><span aria-hidden="true">⌕</span><input id="board-q" type="search" placeholder="Search name or ticker" aria-label="Search coins"></label>
     <div class="seg" role="group" aria-label="Sort coins">
       <button type="button" data-sort="near" aria-pressed="true">Closest to opening</button>
@@ -260,18 +274,6 @@
     </div>
   </div>
   <div class="board" id="board" aria-live="polite"></div>
-</section>
-
-<!-- ============ IV · REVEALS ============ -->
-<section class="sec reveals" id="reveals" data-label="Reveals" data-num="IV">
-  <header class="sec-head rv">
-    <span class="num">IV</span>
-    <div>
-      <h2>What <em>came out.</em></h2>
-      <p>Coins that have already opened. Hover or tap a card to turn it between the disguise and what stepped out of the belly.</p>
-    </div>
-  </header>
-  <div class="hall" id="hall"></div>
 </section>
 
 <div class="meander" aria-hidden="true"></div>

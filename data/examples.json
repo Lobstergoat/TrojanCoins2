@@ -1,0 +1,82 @@
+[
+ {
+  "name": "Sir Barksalot",
+  "symbol": "BARK",
+  "revealCap": 69000,
+  "revealed": {
+   "name": "Mochi Monk",
+   "symbol": "MOCHI",
+   "description": "Inner peace, one soft bite at a time."
+  }
+ },
+ {
+  "name": "Moon Toast",
+  "symbol": "TOAST",
+  "revealCap": 100000,
+  "revealed": {
+   "name": "Froge Prime",
+   "symbol": "FROGE",
+   "description": "Ribbit. Then ascend."
+  }
+ },
+ {
+  "name": "Gigachad Duck",
+  "symbol": "QUACK",
+  "revealCap": 250000,
+  "revealed": {
+   "name": "Pepito the Bold",
+   "symbol": "PEPITO",
+   "description": "Small frog, loud opinions."
+  }
+ },
+ {
+  "name": "Wizard Cat",
+  "symbol": "MEOWZ",
+  "revealCap": 25000,
+  "revealed": {
+   "name": "Nyano",
+   "symbol": "NYANO",
+   "description": "Rainbow trail. No questions."
+  }
+ },
+ {
+  "name": "Soggy Biscuit",
+  "symbol": "SOGGY",
+  "revealCap": 500000,
+  "revealed": {
+   "name": "Bonko the Mighty",
+   "symbol": "BONKO",
+   "description": "Hits first. Apologises never."
+  }
+ },
+ {
+  "name": "Tiny Titan",
+  "symbol": "TITAN",
+  "revealCap": 1000000,
+  "revealed": {
+   "name": "Lord Pickle",
+   "symbol": "BRINE",
+   "description": "Preserved nobility. Slightly sour."
+  }
+ },
+ {
+  "name": "Dr. Nap",
+  "symbol": "NAP",
+  "revealCap": 25000,
+  "revealed": {
+   "name": "Captain Crumb",
+   "symbol": "CRUMB",
+   "description": "Sails the kitchen floor at dawn."
+  }
+ },
+ {
+  "name": "Baron Beans",
+  "symbol": "BEAN",
+  "revealCap": 69000,
+  "revealed": {
+   "name": "Gigabrain Goose",
+   "symbol": "HONK",
+   "description": "Thinks big. Honks bigger."
+  }
+ }
+]

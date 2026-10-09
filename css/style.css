@@ -426,3 +426,5 @@ input[type=number]::-webkit-inner-spin-button { opacity: .3; }
 .soldier:hover .ico-spear svg { transform: translate(5px, -5px); }
 .soldier.talk .ico svg { animation: bump .45s var(--ease); }
 @keyframes bump { 40% { transform: scale(1.14) rotate(-4deg); } }
+.cc.done .bar i { background: var(--ok); }
+.cc-nums { gap: 14px; } .cc-nums span:last-child { text-align: right; }
