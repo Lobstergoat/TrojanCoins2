@@ -90,8 +90,7 @@ kbd { font: 500 11px var(--mono); border: 1px solid var(--line-2); border-bottom
   position: relative; min-height: 100svh; padding: 96px var(--gut) 72px; max-width: calc(var(--max) + var(--gut) * 2); margin: 0 auto;
   display: flex; flex-direction: column; justify-content: center; gap: clamp(20px, 3vw, 40px); isolation: isolate;
 }
-#horse { position: absolute; z-index: -1; right: calc(var(--gut) * -1); top: 70px; width: 82%; height: calc(100% - 90px); pointer-events: none; opacity: .95;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.55) 22%, #000 48%); mask-image: linear-gradient(90deg, transparent 0, rgba(0,0,0,.55) 22%, #000 48%); }
+#horse { position: absolute; z-index: -1; left: 0; right: 0; top: 60px; bottom: 0; width: 100%; height: calc(100% - 60px); pointer-events: none; opacity: .5; }
 .wordmark { font: 400 clamp(54px, 15.2vw, 250px)/.86 var(--serif); letter-spacing: -.05em; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px var(--clay-d); user-select: none; margin: 0 0 clamp(8px, 2vw, 28px) -.04em; animation: wm 1.6s var(--ease) both; }
 @keyframes wm { from { opacity: 0; transform: translateY(16px); letter-spacing: -.02em; } }
 .hero-copy { position: relative; max-width: 620px; }
@@ -381,7 +380,7 @@ input[type=number]::-webkit-inner-spin-button { opacity: .3; }
 
 /* ---------- responsive ---------- */
 @media (max-width: 1080px) {
-  #horse { width: 100%; opacity: .55; }
+  #horse { opacity: .35; }
   .acts { grid-template-columns: 1fr; }
   .act + .act { border-left: 0; border-top: 1px solid var(--line); }
   .forge-grid { grid-template-columns: 1fr; }

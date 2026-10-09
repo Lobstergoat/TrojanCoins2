@@ -9,7 +9,7 @@
   function hash(x, y) { var h = Math.imul(x * 374761393 + y * 668265263, 1274126177); h = (h ^ (h >>> 13)) >>> 0; return (Math.imul(h, 1103515245) >>> 8) / 16777216; }
 
   /* ---- the drawing: a hand-built silhouette, lit like a relief, sampled as dots ---- */
-  var U = 5, BW = 620, BH = 600; // 5 buffer px per drawing unit (124 x 120 units)
+  var U = 5, BW = 620, BH = 540; // 5 buffer px per drawing unit (124 x 120 units)
 
   function smooth(c, pts) {
     var n = pts.length, m0 = [(pts[n - 1][0] + pts[0][0]) / 2, (pts[n - 1][1] + pts[0][1]) / 2];
@@ -26,44 +26,20 @@
   function draw() {
     var lit = layer(), flat = layer(), cut = layer();
     function part(fn, v) { lit.fillStyle = 'rgba(255,255,255,' + v + ')'; lit.beginPath(); fn(lit); lit.fill(); }
-    // legs (far pair first, dimmer)
-    part(function (c) { poly(c, [[55, 58], [66, 58], [65, 78], [67, 83], [53, 83], [55, 78]]); }, .62);
-    part(function (c) { poly(c, [[36, 58], [47, 58], [46, 78], [48, 83], [34, 83], [36, 78]]); }, .62);
-    part(function (c) { poly(c, [[64, 58], [75, 58], [74, 78], [76, 83], [62, 83], [64, 78]]); }, 1);
-    part(function (c) { poly(c, [[23, 58], [34, 58], [33, 78], [35, 83], [21, 83], [23, 78]]); }, 1);
-    // tail
-    part(function (c) { smooth(c, [[20, 38], [12, 42], [7, 56], [9, 67], [14, 65], [14, 55], [21, 47]]); }, .9);
+    // far legs first (dimmer), then near legs
+    part(function (c) { smooth(c, [[62, 58], [70, 58], [68, 70], [58, 76], [54, 83], [50, 80], [55, 72], [62, 66]]); }, .6);
+    part(function (c) { poly(c, [[44, 58], [53, 58], [53, 76], [53, 92], [48, 94], [47, 76]]); }, .6);
+    part(function (c) { poly(c, [[72, 58], [81, 58], [79, 74], [80, 92], [75, 94], [73, 76]]); }, 1);
+    part(function (c) { smooth(c, [[33, 56], [45, 58], [47, 72], [41, 80], [43, 92], [38, 94], [35, 82], [39, 72]]); }, 1);
+    // flowing tail
+    part(function (c) { smooth(c, [[31, 42], [22, 46], [12, 57], [7, 72], [11, 83], [15, 72], [20, 60], [28, 51]]); }, .9);
     // body
-    part(function (c) { smooth(c, [[22, 36], [30, 30], [50, 28], [68, 30], [78, 34], [82, 44], [80, 54], [72, 60], [50, 62], [30, 60], [22, 54], [18, 44]]); }, 1);
-    // mane
-    for (var i = 0; i < 6; i++) {
-      var t = i / 5, bx = 82 - t * 12, by = 9 + t * 25;
-      part(function (c) { poly(c, [[bx + 3, by - 3], [bx - 9, by - 5], [bx - 1, by + 5]]); }, .85);
-    }
-    // neck, head, ears
-    part(function (c) { smooth(c, [[68, 36], [74, 20], [82, 8], [90, 5], [95, 10], [92, 24], [88, 38], [82, 50], [70, 50]]); }, 1);
-    part(function (c) { poly(c, [[96, 4], [99, -5], [103, 5]]); }, .6);
-    part(function (c) { smooth(c, [[84, 12], [90, 3], [99, 4], [108, 12], [117, 22], [119, 29], [113, 32], [104, 29], [97, 27], [92, 26], [88, 22]]); }, 1);
-    part(function (c) { poly(c, [[90, 5], [92, -5], [97, 4]]); }, 1);
-    // cart
-    part(function (c) { poly(c, [[3, 83], [99, 83], [101, 89], [1, 89]]); }, .9);
-
-    // flat details: wheels, spokes, door frame
-    flat.strokeStyle = '#fff'; flat.fillStyle = '#fff';
-    [[22, 97], [78, 97]].forEach(function (w) {
-      flat.lineWidth = 2.4; flat.beginPath(); flat.arc(w[0], w[1], 8, 0, 6.2832); flat.stroke();
-      flat.lineWidth = 1.1;
-      for (var k = 0; k < 4; k++) { var a = k * Math.PI / 4; flat.beginPath(); flat.moveTo(w[0] + Math.cos(a) * 7, w[1] + Math.sin(a) * 7); flat.lineTo(w[0] - Math.cos(a) * 7, w[1] - Math.sin(a) * 7); flat.stroke(); }
-      flat.beginPath(); flat.arc(w[0], w[1], 2, 0, 6.2832); flat.fill();
-    });
-    flat.lineWidth = 1.4; flat.strokeRect(40, 40, 18, 17);
-    flat.beginPath(); flat.arc(55, 48.5, 1.3, 0, 6.2832); flat.fill();
-
-    // cuts: wooden plank seams, a shaded door
-    cut.strokeStyle = '#fff'; cut.lineWidth = .8;
-    for (var y = 34; y < 62; y += 5.5) { cut.beginPath(); cut.moveTo(18, y); cut.lineTo(83, y); cut.stroke(); }
-    cut.lineWidth = .7; for (var y2 = 64; y2 < 78; y2 += 5) { cut.beginPath(); cut.moveTo(20, y2); cut.lineTo(78, y2); cut.stroke(); }
-    cut.globalAlpha = .4; cut.fillStyle = '#fff'; cut.fillRect(40, 40, 18, 17);
+    part(function (c) { smooth(c, [[30, 40], [40, 34], [60, 33], [74, 36], [84, 40], [86, 50], [80, 58], [66, 61], [48, 60], [34, 58], [27, 50]]); }, 1);
+    // mane, neck, head, ear
+    part(function (c) { smooth(c, [[97, 6], [88, 9], [79, 20], [72, 37], [77, 39], [83, 25], [91, 14]]); }, .75);
+    part(function (c) { smooth(c, [[76, 40], [82, 26], [90, 12], [98, 8], [102, 14], [98, 26], [94, 40], [88, 52], [78, 52]]); }, 1);
+    part(function (c) { smooth(c, [[92, 13], [98, 4], [106, 6], [114, 16], [121, 27], [120, 32], [114, 32], [106, 27], [100, 25], [96, 24]]); }, 1);
+    part(function (c) { poly(c, [[98, 6], [99, -3], [104, 6]]); }, .9);
     return [lit.canvas, flat.canvas, cut.canvas].map(function (k) { return k.getContext('2d').getImageData(0, 0, BW, BH).data; });
   }
 
@@ -122,11 +98,11 @@
     var t = (now - t0) / 1000;
     ctx.clearRect(0, 0, W, H);
     // keep the drawing's aspect (560 x 460) fitted inside the canvas, anchored right
-    var ar = BW / BH, dw = Math.min(W * 0.92, H * 0.78 * ar), dh = dw / ar, ox = W - dw - W * 0.07, oy = (H - dh) / 2 - H * 0.02;
-    var scale = dw / BW, rad = scale * 1.75;
+    var ar = BW / BH, dw = Math.min(W * 0.95, H * 0.98 * ar), dh = dw / ar, ox = (W - dw) / 2 + W * 0.08, oy = (H - dh) / 2;
+    var scale = dw / BW, rad = scale * 1.9;
     var mx = mouse ? mouse.x : -999, my = mouse ? mouse.y : -999, R = 90;
     ctx.lineWidth = 0.9;
-    var cols = ['#7a3a1c', '#a84e22', '#d9622b', '#f08a4b'];
+    var cols = ['#5a2d17', '#7d3d1d', '#a84e22', '#c8672f'];
     var groups = [[], [], [], []];
     for (var i = 0; i < dots.length; i++) {
       var d = dots[i];
@@ -151,7 +127,7 @@
         if (q.eye) continue;
         ctx.moveTo(q.px + rr, q.py); ctx.arc(q.px, q.py, rr, 0, 6.2832);
       }
-      ctx.globalAlpha = g === 3 ? 1 : 0.55 + g * 0.15;
+      ctx.globalAlpha = 0.5 + g * 0.1;
       ctx.stroke();
     }
     ctx.globalAlpha = 1;
