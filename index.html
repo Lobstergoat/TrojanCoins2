@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrojanCoins — Launch one coin. Ship another.</title>
+<meta name="description" content="Launch a meme coin on pump.fun that arrives in disguise and turns into a different meme the moment it hits the market cap you set.">
+<meta name="theme-color" content="#0b0907">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0907'/%3E%3Cpath d='M6 15h14l2-7 5 2-1 6-2 2v8h-3v-6H12v6H9v-8l-3-2z' fill='%23d9622b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip" href="#forge">Skip to launch form</a>
+
+<!-- ============ HEADER ============ -->
+<header class="top">
+  <a class="brand" href="#gate" aria-label="TrojanCoins home">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 16h14l2-8 5 2-1 6-2 2v8h-3v-6H11v6H8v-8l-3-2z"/></svg>
+    <span>Trojan<em>Coins</em></span>
+  </a>
+  <div class="top-r">
+    <button class="jump" id="jump" type="button" aria-label="Open command menu"><kbd>/</kbd><span>jump anywhere</span></button>
+    <button class="btn btn-wallet" id="wallet-btn" type="button"><span class="dot"></span><span class="lbl">Connect Phantom</span></button>
+  </div>
+</header>
+
+<main>
+<!-- ============ 0 · GATE (hero) ============ -->
+<section class="hero" id="gate" data-label="Gate" data-num="0">
+  <div class="hero-copy">
+    <p class="eyebrow rv"><span class="pulse"></span>Launchpad on Solana · settles on pump.fun</p>
+    <h1 class="display" aria-label="Launch one coin. Ship another.">
+      <span class="ln"><span class="w">Launch</span> <span class="w">one</span> <span class="w">coin.</span></span>
+      <span class="ln"><em><span class="w">Ship</span> <span class="w">another.</span></em></span>
+    </h1>
+    <p class="lede rv">Every coin on TrojanCoins arrives in disguise. The moment it reaches the market cap you chose, it sheds its name, ticker, art and story and walks out of the horse as a different meme.</p>
+    <div class="cta rv">
+      <a class="btn btn-primary" href="#forge" data-go>Launch a coin <span aria-hidden="true">→</span></a>
+      <a class="btn btn-ghost" href="#how" data-go>How the horse works</a>
+    </div>
+    <dl class="hero-stats rv" id="hero-stats" aria-label="Network statistics">
+      <div><dt>At the gates</dt><dd data-stat="sealed">—</dd></div>
+      <div><dt>Opened</dt><dd data-stat="opened">—</dd></div>
+      <div><dt>Coins launched</dt><dd data-stat="total">—</dd></div>
+    </dl>
+  </div>
+
+  <div class="hero-horse">
+    <div class="bubble" id="bubble" role="status" aria-live="polite"><span id="bubble-text">Nothing to see here.</span></div>
+    <canvas id="horse" role="img" aria-label="A large ASCII wooden horse on wheels, slowly turning. Drag to rotate it; click its head, body, belly, legs or tail to navigate."></canvas>
+    <div class="tip" id="tip" aria-hidden="true"></div>
+    <ul class="parts" id="parts" aria-label="Navigate by horse anatomy">
+      <li><button type="button" data-part="1" data-go="#forge"><b>Head</b><span>Launch</span></button></li>
+      <li><button type="button" data-part="0" data-go="#how"><b>Body</b><span>How it works</span></button></li>
+      <li><button type="button" data-part="4" data-go="#reveals"><b>Belly</b><span>Reveals</span></button></li>
+      <li><button type="button" data-part="2" data-go="#gates"><b>Legs</b><span>The board</span></button></li>
+      <li><button type="button" data-part="3" data-go="#faq"><b>Tail</b><span>Fine print</span></button></li>
+    </ul>
+    <p class="hint"><span>drag to turn</span><span>click the horse to travel</span></p>
+  </div>
+</section>
+
+<div class="meander" aria-hidden="true"></div>
+
+<!-- ============ I · HOW ============ -->
+<section class="sec" id="how" data-label="How" data-num="I">
+  <header class="sec-head rv">
+    <span class="num">I</span>
+    <div>
+      <h2>Three acts, <em>one horse.</em></h2>
+      <p>You never ship a coin. You ship a promise with a sealed door in its belly. Everything else is timing.</p>
+    </div>
+  </header>
+
+  <div class="acts">
+    <article class="act rv">
+      <header><span class="roman">I.</span><h3>Wheel it in</h3></header>
+      <pre class="viz" data-viz="type" aria-hidden="true"></pre>
+      <p>Pick a disguise: name, ticker, image and description. It launches on pump.fun like any other coin and trades on its own merits.</p>
+    </article>
+    <article class="act rv">
+      <header><span class="roman">II.</span><h3>Set the gate</h3></header>
+      <pre class="viz" data-viz="bar" aria-hidden="true"></pre>
+      <p>Choose the market cap that opens the door. A modest one for a quick twist, a heroic one for a long siege. It is yours to decide.</p>
+    </article>
+    <article class="act rv">
+      <header><span class="roman">III.</span><h3>Open the belly</h3></header>
+      <pre class="viz" data-viz="scramble" aria-hidden="true"></pre>
+      <p>At the threshold the disguise falls away. New image, new ticker, new description. A random meme steps out and takes the name.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ============ II · FORGE (launch) ============ -->
+<section class="sec forge" id="forge" data-label="Forge" data-num="II">
+  <header class="sec-head rv">
+    <span class="num">II</span>
+    <div>
+      <h2>Build the <em>disguise.</em></h2>
+      <p>This is the face your coin shows the world. Connect Phantom, set the gate, launch.</p>
+    </div>
+  </header>
+
+  <div class="forge-grid">
+    <form class="form rv" id="launch-form" novalidate autocomplete="off">
+      <fieldset>
+        <legend><span>01</span> Identity</legend>
+        <div class="row two">
+          <label class="fld"><span class="k">Coin name</span>
+            <input id="f-name" name="name" type="text" maxlength="32" placeholder="e.g. Sir Barksalot" required>
+          </label>
+          <label class="fld"><span class="k">Ticker</span>
+            <div class="pre"><i>$</i><input id="f-ticker" name="symbol" type="text" maxlength="10" placeholder="BARK" required style="text-transform:uppercase"></div>
+          </label>
+        </div>
+        <label class="fld"><span class="k">Description <small id="desc-count">0 / 280</small></span>
+          <textarea id="f-desc" name="description" rows="3" maxlength="280" placeholder="One or two lines. Make it convincing."></textarea>
+        </label>
+        <div class="fld"><span class="k">Image <small>PNG, JPG, GIF · max 5 MB</small></span>
+          <label class="drop" id="drop" tabindex="0">
+            <input id="f-image" name="image" type="file" accept="image/png,image/jpeg,image/gif,image/webp" hidden>
+            <span class="drop-art" aria-hidden="true">┌─────┐<br>│ + + │<br>└─────┘</span>
+            <span class="drop-txt"><b>Drop an image</b> or click to browse</span>
+            <span class="drop-name" id="drop-name"></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span>02</span> The gate</legend>
+        <div class="fld">
+          <span class="k">Reveal at market cap <output id="cap-out" for="f-cap">$69,000</output></span>
+          <input id="f-cap" class="range" type="range" min="0" max="1000" value="390" aria-describedby="cap-help">
+          <div class="scale" aria-hidden="true"><span>$10K</span><span>$100K</span><span>$1M</span><span>$10M</span></div>
+          <div class="chips" id="cap-chips" role="group" aria-label="Quick thresholds">
+            <button type="button" data-cap="25000">$25K</button>
+            <button type="button" data-cap="69000">$69K</button>
+            <button type="button" data-cap="250000">$250K</button>
+            <button type="button" data-cap="1000000">$1M</button>
+          </div>
+          <p class="help" id="cap-help">When the coin's market cap crosses this value, it transforms into a random new meme.</p>
+        </div>
+        <div class="row two">
+          <label class="fld"><span class="k">Initial buy <small>SOL · optional</small></span>
+            <div class="pre"><i>◎</i><input id="f-dev" name="devbuy" type="number" min="0" step="0.01" placeholder="0.00" inputmode="decimal"></div>
+          </label>
+          <div class="fld"><span class="k">Hidden identity</span>
+            <div class="sealed-chip"><span class="lock" aria-hidden="true">▣</span> Drawn at reveal from the archive</div>
+          </div>
+        </div>
+      </fieldset>
+
+      <details class="more">
+        <summary>Links <small>optional</small></summary>
+        <div class="row three">
+          <label class="fld"><span class="k">X / Twitter</span><input id="f-x" name="twitter" type="url" placeholder="https://x.com/…"></label>
+          <label class="fld"><span class="k">Telegram</span><input id="f-tg" name="telegram" type="url" placeholder="https://t.me/…"></label>
+          <label class="fld"><span class="k">Website</span><input id="f-web" name="website" type="url" placeholder="https://…"></label>
+        </div>
+      </details>
+
+      <div class="submit">
+        <button class="btn btn-primary btn-lg" id="launch-btn" type="submit"><span id="launch-lbl">Connect Phantom to launch</span> <span aria-hidden="true">→</span></button>
+        <p class="fine">You sign one transaction in Phantom. Your coin is created on pump.fun from your wallet.</p>
+      </div>
+      <ol class="steps" id="steps" hidden>
+        <li data-s="pin"><i></i>Pinning the disguise</li>
+        <li data-s="mint"><i></i>Forging the mint</li>
+        <li data-s="sign"><i></i>Waiting for your signature</li>
+        <li data-s="done"><i></i>At the gates</li>
+      </ol>
+      <p class="error" id="form-error" role="alert" hidden></p>
+    </form>
+
+    <aside class="preview rv" aria-label="Live preview of your coin">
+      <div class="preview-bar">
+        <span>Live preview</span>
+        <div class="seg" role="tablist">
+          <button type="button" role="tab" aria-selected="true" id="tab-front" data-face="front">Disguise</button>
+          <button type="button" role="tab" aria-selected="false" id="tab-back" data-face="back">Behind the seal</button>
+        </div>
+      </div>
+      <div class="coin" id="coin" data-face="front">
+        <div class="face front">
+          <div class="art" id="pv-art"></div>
+          <div class="meta">
+            <div class="nm"><h3 id="pv-name">Your coin</h3><span id="pv-sym">$TICKER</span></div>
+            <p id="pv-desc">Your description appears here as you type.</p>
+          </div>
+          <div class="gate-meter">
+            <div class="gm-top"><span>Market cap</span><span id="pv-cap">$0 / $69K</span></div>
+            <div class="gm-bar"><i style="width:0%"></i></div>
+            <div class="gm-foot">Opens at <b id="pv-cap2">$69,000</b></div>
+          </div>
+        </div>
+        <div class="face back">
+          <div class="seal-art" aria-hidden="true"><pre id="seal-pre"></pre></div>
+          <div class="meta">
+            <div class="nm"><h3 id="seal-name">??????</h3><span id="seal-sym">$????</span></div>
+            <p id="seal-desc">Sealed until the gate opens.</p>
+          </div>
+          <div class="gate-meter"><div class="gm-foot">Revealed at the threshold</div></div>
+        </div>
+      </div>
+      <p class="pv-note">Whatever sits behind the seal is chosen at the moment of reveal. Not even you know what walks out.</p>
+    </aside>
+  </div>
+
+  <div class="done" id="done" hidden>
+    <pre class="done-art" aria-hidden="true">  ┌──────────────┐
+  │   AT THE     │
+  │    GATES     │
+  └──────────────┘</pre>
+    <h3>Your horse is at the gates.</h3>
+    <p>The coin is live on pump.fun. When it reaches <b id="done-cap">$69,000</b> the door opens.</p>
+    <dl class="kv">
+      <div><dt>Mint</dt><dd><code id="done-mint"></code> <button type="button" class="mini" id="copy-mint">copy</button></dd></div>
+      <div><dt>Transaction</dt><dd><a id="done-tx" target="_blank" rel="noopener">view on Solscan</a></dd></div>
+    </dl>
+    <div class="cta">
+      <a class="btn btn-primary" id="done-pump" target="_blank" rel="noopener">Open on pump.fun →</a>
+      <button class="btn btn-ghost" type="button" id="done-again">Launch another</button>
+    </div>
+  </div>
+</section>
+
+<div class="meander" aria-hidden="true"></div>
+
+<!-- ============ III · GATES (board) ============ -->
+<section class="sec" id="gates" data-label="Gates" data-num="III">
+  <header class="sec-head rv">
+    <span class="num">III</span>
+    <div>
+      <h2>Waiting at <em>the gates.</em></h2>
+      <p>Every sealed coin and how close it is to opening. Watch the bars. Pick your moment.</p>
+    </div>
+  </header>
+  <div class="board-tools rv">
+    <label class="search"><span aria-hidden="true">⌕</span><input id="board-q" type="search" placeholder="Search name or ticker" aria-label="Search coins"></label>
+    <div class="seg" role="group" aria-label="Sort coins">
+      <button type="button" data-sort="near" aria-pressed="true">Closest to opening</button>
+      <button type="button" data-sort="new" aria-pressed="false">Newest</button>
+    </div>
+  </div>
+  <div class="board" id="board" aria-live="polite"></div>
+</section>
+
+<!-- ============ IV · REVEALS ============ -->
+<section class="sec reveals" id="reveals" data-label="Reveals" data-num="IV">
+  <header class="sec-head rv">
+    <span class="num">IV</span>
+    <div>
+      <h2>What <em>came out.</em></h2>
+      <p>Coins that have already opened. Hover or tap a card to turn it between the disguise and what stepped out of the belly.</p>
+    </div>
+  </header>
+  <div class="hall" id="hall"></div>
+</section>
+
+<div class="meander" aria-hidden="true"></div>
+
+<!-- ============ V · CREW ============ -->
+<section class="sec" id="crew" data-label="Crew" data-num="V">
+  <header class="sec-head rv">
+    <span class="num">V</span>
+    <div>
+      <h2>The crew <em>inside.</em></h2>
+      <p>Four soldiers, each with one job. Poke them. They are not shy.</p>
+    </div>
+  </header>
+  <div class="crew" id="crew-grid"></div>
+</section>
+
+<!-- ============ VI · FAQ ============ -->
+<section class="sec faq" id="faq" data-label="Fine print" data-num="VI">
+  <header class="sec-head rv">
+    <span class="num">VI</span>
+    <div>
+      <h2>The <em>fine print.</em></h2>
+      <p>Short answers to the usual questions.</p>
+    </div>
+  </header>
+  <div class="faq-list rv">
+    <details><summary>What exactly happens at the threshold?</summary><p>When your coin's market cap crosses the value you set, its identity changes: image, name, ticker and description are replaced with those of a randomly selected meme from the TrojanCoins archive. Holders keep their tokens.</p></details>
+    <details><summary>Can I change the threshold after launching?</summary><p>No. The gate is set when you launch and is part of the coin's promise. Choose it carefully.</p></details>
+    <details><summary>What does it cost to launch?</summary><p>Creating a coin on pump.fun costs a small amount of SOL plus network fees, and you may add an optional initial buy. Phantom shows the exact total before you sign.</p></details>
+    <details><summary>Who chooses the new meme?</summary><p>Nobody. It is drawn at random from the archive at the moment of reveal, so neither the creator nor the holders know in advance.</p></details>
+    <details><summary>Which wallets work?</summary><p>Phantom, on Solana mainnet. Install the extension or the mobile app, then press Connect Phantom.</p></details>
+    <details><summary>Is this financial advice?</summary><p>No. Meme coins are volatile and can go to zero. Only use funds you can afford to lose.</p></details>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="marquee" aria-hidden="true"><div class="mq"><span>SEALED // DISGUISED // WHEELED IN // WAITING // OPENED // REVEALED // </span><span>SEALED // DISGUISED // WHEELED IN // WAITING // OPENED // REVEALED // </span></div></div>
+  <div class="foot-in">
+    <div class="giant" aria-hidden="true">TROJANCOINS</div>
+    <div class="foot-cols">
+      <p class="motto">Beware of Greeks bearing coins.</p>
+      <nav aria-label="Social"><a href="#" rel="noopener">X</a><a href="#" rel="noopener">Telegram</a><a href="https://pump.fun" target="_blank" rel="noopener">pump.fun</a></nav>
+      <p class="legal">© 2026 TrojanCoins. Meme coins are volatile. Not financial advice.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ SIEGE TRACK (scroll nav) ============ -->
+<nav class="track" id="track" aria-label="Page progress and sections">
+  <div class="rail" id="rail">
+    <div class="fill" id="rail-fill"></div>
+    <div class="ticks" id="ticks"></div>
+    <div class="cart" id="cart" aria-hidden="true">
+      <svg viewBox="0 0 44 30"><path class="wd" d="M4 12h20l3-8 6 2-1 7-3 3v6h-3v-5H12v5H9v-6l-5-2z"/><g class="wh"><circle cx="13" cy="26" r="3.2"/><circle cx="29" cy="26" r="3.2"/></g></svg>
+    </div>
+    <div class="arch" id="arch" aria-hidden="true"><i class="d1"></i><i class="d2"></i></div>
+  </div>
+</nav>
+
+<!-- ============ COMMAND PALETTE ============ -->
+<div class="pal" id="pal" hidden>
+  <div class="pal-box" role="dialog" aria-modal="true" aria-label="Jump to">
+    <input id="pal-q" type="text" placeholder="Jump to…" aria-label="Search destinations" autocomplete="off">
+    <ul id="pal-list" role="listbox"></ul>
+    <div class="pal-foot"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>↵</kbd> go</span><span><kbd>esc</kbd> close</span></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script src="https://unpkg.com/@solana/web3.js@1.98.0/lib/index.iife.min.js" defer></script>
+<script src="js/config.js"></script>
+<script src="js/horse.js"></script>
+<script src="js/wallet.js"></script>
+<script src="js/launch.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

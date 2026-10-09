@@ -1,0 +1,12 @@
+[
+  {"id":"c01","name":"Sir Barksalot","symbol":"BARK","description":"A knight who guards the realm with a stick and absolute confidence.","marketCap":61400,"revealCap":69000,"status":"sealed","created":"2026-10-08T14:20:00Z","mint":""},
+  {"id":"c02","name":"Moon Toast","symbol":"TOAST","description":"Buttered side up. Always lands on the moon.","marketCap":22800,"revealCap":100000,"status":"sealed","created":"2026-10-08T09:02:00Z","mint":""},
+  {"id":"c03","name":"Gigachad Duck","symbol":"QUACK","description":"Never skips leg day. Never skips pond day.","marketCap":148000,"revealCap":250000,"status":"sealed","created":"2026-10-07T21:40:00Z","mint":""},
+  {"id":"c04","name":"Wizard Cat","symbol":"MEOWZ","description":"Casts one spell a day: knocking things off tables.","marketCap":9700,"revealCap":25000,"status":"sealed","created":"2026-10-09T06:11:00Z","mint":""},
+  {"id":"c05","name":"Soggy Biscuit","symbol":"SOGGY","description":"Dunked too long. Still going strong.","marketCap":412000,"revealCap":500000,"status":"sealed","created":"2026-10-06T18:30:00Z","mint":""},
+  {"id":"c06","name":"Tiny Titan","symbol":"TITAN","description":"Small hands. Enormous plans.","marketCap":33000,"revealCap":1000000,"status":"sealed","created":"2026-10-05T11:05:00Z","mint":""},
+  {"id":"c07","name":"Lord Pickle","symbol":"BRINE","description":"Preserved nobility. Slightly sour.","marketCap":251000,"revealCap":250000,"status":"opened","created":"2026-10-02T10:00:00Z","mint":"","revealed":{"name":"Mochi Monk","symbol":"MOCHI","description":"Inner peace, one soft bite at a time."}},
+  {"id":"c08","name":"Captain Crumb","symbol":"CRUMB","description":"Sails the kitchen floor at dawn.","marketCap":70500,"revealCap":69000,"status":"opened","created":"2026-10-01T16:45:00Z","mint":"","revealed":{"name":"Froge Prime","symbol":"FROGE","description":"Ribbit. Then ascend."}},
+  {"id":"c09","name":"Baron Beans","symbol":"BEAN","description":"A very rich legume.","marketCap":1020000,"revealCap":1000000,"status":"opened","created":"2026-09-28T08:15:00Z","mint":"","revealed":{"name":"Pepito the Bold","symbol":"PEPITO","description":"Small frog, loud opinions."}},
+  {"id":"c10","name":"Dr. Nap","symbol":"NAP","description":"Prescribes sleep. Accepts treats.","marketCap":27000,"revealCap":25000,"status":"opened","created":"2026-09-27T22:50:00Z","mint":"","revealed":{"name":"Nyano","symbol":"NYANO","description":"Rainbow trail. No questions."}}
+]
