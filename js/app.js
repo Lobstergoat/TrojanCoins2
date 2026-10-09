@@ -219,9 +219,10 @@
   var sealIv;
   TC.sealScramble = function () {
     clearInterval(sealIv);
+    if (TC.revealCustom) return;
     var pre = $('#seal-pre'), nm = $('#seal-name'), sy = $('#seal-sym'), ds = $('#seal-desc');
     function frame() {
-      if ($('#coin').dataset.face !== 'back') { clearInterval(sealIv); return; }
+      if ($('#coin').dataset.face !== 'back' || TC.revealCustom) { clearInterval(sealIv); return; }
       var rows = [];
       for (var y = 0; y < 9; y++) { var s = ''; for (var x = 0; x < 24; x++) s += Math.random() < 0.55 ? rnd('#%@*+=-:.?') : ' '; rows.push(s); }
       pre.textContent = rows.join('\n');

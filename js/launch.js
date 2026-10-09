@@ -3,6 +3,7 @@
   'use strict';
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var cfg = root.TC_CONFIG, el = {}, image = null, imageURL = null, busy = false;
+  var revMode = 'random', revImage = null, revImageURL = null;
 
   function fmtUSD(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
   function short(n) { return n >= 1e6 ? '$' + (n / 1e6).toFixed(n % 1e6 ? 1 : 0) + 'M' : '$' + Math.round(n / 1000) + 'K'; }
@@ -50,6 +51,48 @@
     el.dropName.textContent = file.name;
     el.drop.classList.add('has');
     paintPreview();
+  }
+
+  function setRevImage(file) {
+    if (!file) return;
+    if (!/^image\//.test(file.type)) return root.TC.toast('That file is not an image.');
+    if (file.size > cfg.limits.maxImageMB * 1048576) return root.TC.toast('Image is over ' + cfg.limits.maxImageMB + ' MB.');
+    revImage = file;
+    if (revImageURL) URL.revokeObjectURL(revImageURL);
+    revImageURL = URL.createObjectURL(file);
+    el.rDropName.textContent = file.name;
+    el.rDrop.classList.add('has');
+    paintBack();
+  }
+
+  // back of the preview card: your chosen reveal, or the sealed scramble
+  function paintBack() {
+    var custom = revMode === 'custom';
+    root.TC.revealCustom = custom;
+    var pv = document.getElementById('pv-note');
+    if (!custom) {
+      pv.textContent = 'Whatever sits behind the seal is drawn at the moment of reveal. Not even you know what walks out.';
+      if ($('#coin').dataset.face === 'back') root.TC.sealScramble();
+      return;
+    }
+    var name = el.rName.value.trim(), sym = el.rTicker.value.trim().toUpperCase();
+    $('#seal-name').textContent = name || 'Reveal name';
+    $('#seal-sym').textContent = '$' + (sym || 'TICKER');
+    $('#seal-desc').textContent = el.rDesc.value.trim() || 'Your reveal description appears here.';
+    $('.seal-art').innerHTML = revImageURL ? '<img alt="" src="' + revImageURL + '">' : root.TC.avatar(name + sym + 'reveal', 160);
+    pv.textContent = 'This is what your coin becomes when the gate opens at ' + fmtUSD(cap) + '.';
+  }
+
+  function setMode(mode) {
+    revMode = mode;
+    [].forEach.call(el.revMode.children, function (b) { b.setAttribute('aria-pressed', b.dataset.mode === mode ? 'true' : 'false'); });
+    el.revCustom.hidden = mode !== 'custom';
+    $('#rev-help').textContent = mode === 'custom'
+      ? 'The coin becomes exactly the name, ticker, image and description you set below when the gate opens.'
+      : 'A random meme is drawn from the TrojanCoins archive when the gate opens. Nobody knows which until it happens.';
+    if (mode === 'random') { $('.seal-art').innerHTML = '<pre id="seal-pre"></pre>'; }
+    else if (!$('.seal-art img') && !$('.seal-art svg')) { $('.seal-art').innerHTML = ''; }
+    paintBack();
   }
 
   function btnState() {
@@ -115,11 +158,20 @@
     if (sym.length < 2) return fail('Ticker needs 2 to 10 letters or numbers.');
     if (!el.desc.value.trim()) return fail('Add a short description.');
     if (!image) return fail('Add an image for the disguise.');
+    var rev = { mode: revMode };
+    if (revMode === 'custom') {
+      rev.name = el.rName.value.trim(); rev.symbol = el.rTicker.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, ''); rev.description = el.rDesc.value.trim(); rev.image = revImage;
+      if (rev.name.length < 2) return fail('Give the reveal a name.');
+      if (rev.symbol.length < 2) return fail('The reveal ticker needs 2 to 10 letters or numbers.');
+      if (!rev.description) return fail('Add a reveal description.');
+      if (!rev.image) return fail('Add an image for the reveal.');
+      if (rev.symbol === sym) return fail('The reveal ticker must differ from the disguise ticker.');
+    }
     if (!root.solanaWeb3) return fail('The Solana library did not load. Check your connection and reload.');
 
     var payload = {
       creator: w.address, name: name, symbol: sym, description: el.desc.value.trim(), image: image,
-      revealCap: cap, devBuy: parseFloat(el.dev.value) || 0,
+      reveal: rev, revealCap: cap, devBuy: parseFloat(el.dev.value) || 0,
       links: { twitter: el.x.value.trim(), telegram: el.tg.value.trim(), website: el.web.value.trim() }
     };
 
@@ -153,6 +205,7 @@
 
   function success(p) {
     $('#done-cap').textContent = fmtUSD(p.revealCap);
+    $('#done-into').textContent = p.reveal.mode === 'custom' ? 'into ' + p.reveal.name + ' ($' + p.reveal.symbol + ')' : 'into a random meme';
     $('#done-mint').textContent = p.mint;
     var tx = $('#done-tx'); tx.href = cfg.explorer + '/tx/' + p.signature;
     $('#done-pump').href = cfg.pump.coinUrl + p.mint;
@@ -167,7 +220,8 @@
     el.form.closest('.forge').classList.remove('is-done');
     el.form.reset(); image = null; if (imageURL) URL.revokeObjectURL(imageURL); imageURL = null;
     el.drop.classList.remove('has'); el.dropName.textContent = '';
-    el.steps.hidden = true; setCap(69000); paintPreview();
+    revImage = null; if (revImageURL) URL.revokeObjectURL(revImageURL); revImageURL = null; el.rDrop.classList.remove('has'); el.rDropName.textContent = '';
+    el.steps.hidden = true; setCap(69000); paintPreview(); setMode('random');
     el.form.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
@@ -197,9 +251,21 @@
       b.addEventListener('click', function () {
         coin.dataset.face = b.dataset.face;
         [].forEach.call(b.parentNode.children, function (o) { o.setAttribute('aria-selected', o === b ? 'true' : 'false'); });
-        if (b.dataset.face === 'back') root.TC.sealScramble();
+        if (b.dataset.face === 'back') { revMode === 'custom' ? paintBack() : root.TC.sealScramble(); }
       });
     });
+
+    el.revMode = $('#rev-mode'); el.revCustom = $('#rev-custom'); el.rName = $('#r-name'); el.rTicker = $('#r-ticker'); el.rDesc = $('#r-desc');
+    el.rDrop = $('#r-drop'); el.rDropName = $('#r-drop-name');
+    el.revMode.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) setMode(b.dataset.mode); });
+    ['rName', 'rTicker', 'rDesc'].forEach(function (k) { el[k].addEventListener('input', function () { $('#rdesc-count').textContent = el.rDesc.value.length + ' / 280'; paintBack(); }); });
+    el.rTicker.addEventListener('input', function () { el.rTicker.value = el.rTicker.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase(); });
+    var rFile = $('#r-image');
+    rFile.addEventListener('change', function () { setRevImage(rFile.files[0]); });
+    el.rDrop.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); rFile.click(); } });
+    ['dragenter', 'dragover'].forEach(function (t) { el.rDrop.addEventListener(t, function (e) { e.preventDefault(); el.rDrop.classList.add('over'); }); });
+    ['dragleave', 'drop'].forEach(function (t) { el.rDrop.addEventListener(t, function (e) { e.preventDefault(); el.rDrop.classList.remove('over'); }); });
+    el.rDrop.addEventListener('drop', function (e) { setRevImage(e.dataTransfer.files[0]); });
 
     el.form.addEventListener('submit', launch);
     $('#copy-mint').addEventListener('click', function () {

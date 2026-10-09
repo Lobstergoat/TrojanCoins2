@@ -33,7 +33,11 @@ window.TC_CONFIG = {
      name, symbol, description,           // the disguise
      image,                               // File
      revealCap,                           // USD market cap that opens the gate
-     links: { twitter, telegram, website }
+     links: { twitter, telegram, website },
+     reveal: {                            // what the coin turns into
+       mode: 'random' | 'custom',         // random → pick from your archive at reveal time
+       name, symbol, description, image   // only set when mode === 'custom' (image is a File)
+     }
    }
 */
 window.TC_HOOKS = {
@@ -47,7 +51,8 @@ window.TC_HOOKS = {
       body: JSON.stringify({
         mint: payload.mint, signature: payload.signature, creator: payload.creator,
         name: payload.name, symbol: payload.symbol, description: payload.description,
-        revealCap: payload.revealCap, links: payload.links
+        revealCap: payload.revealCap, links: payload.links,
+        reveal: { mode: payload.reveal.mode, name: payload.reveal.name, symbol: payload.reveal.symbol, description: payload.reveal.description }
       })
     });
     return res.ok ? res.json() : null;

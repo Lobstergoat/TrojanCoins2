@@ -77,7 +77,7 @@
     <article class="act rv">
       <header><span class="roman">III.</span><h3>Open the belly</h3></header>
       <pre class="viz" data-viz="scramble" aria-hidden="true"></pre>
-      <p>At the threshold the disguise falls away. New image, new ticker, new description. A random meme steps out and takes the name.</p>
+      <p>At the threshold the disguise falls away. New image, new ticker, new description. A new meme steps out and takes the name, picked by chance or by the creator.</p>
     </article>
   </div>
 </section>
@@ -129,14 +129,40 @@
             <button type="button" data-cap="250000">$250K</button>
             <button type="button" data-cap="1000000">$1M</button>
           </div>
-          <p class="help" id="cap-help">When the coin's market cap crosses this value, it transforms into a random new meme.</p>
+          <p class="help" id="cap-help">When the coin's market cap crosses this value, it transforms into the new meme you choose below, or a random one.</p>
         </div>
-        <div class="row two">
-          <label class="fld"><span class="k">Initial buy <small>SOL · optional</small></span>
-            <div class="pre"><i>◎</i><input id="f-dev" name="devbuy" type="number" min="0" step="0.01" placeholder="0.00" inputmode="decimal"></div>
+        <label class="fld"><span class="k">Initial buy <small>SOL · optional</small></span>
+          <div class="pre"><i>◎</i><input id="f-dev" name="devbuy" type="number" min="0" step="0.01" placeholder="0.00" inputmode="decimal"></div>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend><span>03</span> The reveal</legend>
+        <div class="fld">
+          <span class="k">What does it turn into?</span>
+          <div class="seg seg-wide" id="rev-mode" role="group" aria-label="Reveal identity">
+            <button type="button" data-mode="random" aria-pressed="true">Surprise me <small>random meme</small></button>
+            <button type="button" data-mode="custom" aria-pressed="false">I choose <small>my own meme</small></button>
+          </div>
+          <p class="help" id="rev-help">A random meme is drawn from the TrojanCoins archive when the gate opens. Nobody knows which until it happens.</p>
+        </div>
+        <div class="rev-custom" id="rev-custom" hidden>
+          <div class="row two">
+            <label class="fld"><span class="k">Reveal name</span><input id="r-name" type="text" maxlength="32" placeholder="e.g. Froge Prime"></label>
+            <label class="fld"><span class="k">Reveal ticker</span>
+              <div class="pre"><i>$</i><input id="r-ticker" type="text" maxlength="10" placeholder="FROGE" style="text-transform:uppercase"></div>
+            </label>
+          </div>
+          <label class="fld"><span class="k">Reveal description <small id="rdesc-count">0 / 280</small></span>
+            <textarea id="r-desc" rows="2" maxlength="280" placeholder="What the coin becomes."></textarea>
           </label>
-          <div class="fld"><span class="k">Hidden identity</span>
-            <div class="sealed-chip"><span class="lock" aria-hidden="true">▣</span> Drawn at reveal from the archive</div>
+          <div class="fld"><span class="k">Reveal image <small>PNG, JPG, GIF · max 5 MB</small></span>
+            <label class="drop" id="r-drop" tabindex="0">
+              <input id="r-image" type="file" accept="image/png,image/jpeg,image/gif,image/webp" hidden>
+              <span class="drop-art" aria-hidden="true">┌─────┐<br>│ + + │<br>└─────┘</span>
+              <span class="drop-txt"><b>Drop the reveal image</b> or click to browse</span>
+              <span class="drop-name" id="r-drop-name"></span>
+            </label>
           </div>
         </div>
       </fieldset>
@@ -193,7 +219,7 @@
           <div class="gate-meter"><div class="gm-foot">Revealed at the threshold</div></div>
         </div>
       </div>
-      <p class="pv-note">Whatever sits behind the seal is chosen at the moment of reveal. Not even you know what walks out.</p>
+      <p class="pv-note"><span id="pv-note">Whatever sits behind the seal is drawn at the moment of reveal. Not even you know what walks out.</span></p>
     </aside>
   </div>
 
@@ -203,7 +229,7 @@
   │    GATES     │
   └──────────────┘</pre>
     <h3>Your horse is at the gates.</h3>
-    <p>The coin is live on pump.fun. When it reaches <b id="done-cap">$69,000</b> the door opens.</p>
+    <p>The coin is live on pump.fun. When it reaches <b id="done-cap">$69,000</b> the door opens and it turns <span id="done-into">into a random meme</span>.</p>
     <dl class="kv">
       <div><dt>Mint</dt><dd><code id="done-mint"></code> <button type="button" class="mini" id="copy-mint">copy</button></dd></div>
       <div><dt>Transaction</dt><dd><a id="done-tx" target="_blank" rel="noopener">view on Solscan</a></dd></div>
@@ -272,10 +298,10 @@
     </div>
   </header>
   <div class="faq-list rv">
-    <details><summary>What exactly happens at the threshold?</summary><p>When your coin's market cap crosses the value you set, its identity changes: image, name, ticker and description are replaced with those of a randomly selected meme from the TrojanCoins archive. Holders keep their tokens.</p></details>
+    <details><summary>What exactly happens at the threshold?</summary><p>When your coin's market cap crosses the value you set, its identity changes: image, name, ticker and description are replaced with the reveal you chose, or with a random meme from the TrojanCoins archive. Holders keep their tokens.</p></details>
     <details><summary>Can I change the threshold after launching?</summary><p>No. The gate is set when you launch and is part of the coin's promise. Choose it carefully.</p></details>
     <details><summary>What does it cost to launch?</summary><p>Creating a coin on pump.fun costs a small amount of SOL plus network fees, and you may add an optional initial buy. Phantom shows the exact total before you sign.</p></details>
-    <details><summary>Who chooses the new meme?</summary><p>Nobody. It is drawn at random from the archive at the moment of reveal, so neither the creator nor the holders know in advance.</p></details>
+    <details><summary>Who chooses the new meme?</summary><p>You do, if you want to. When you launch, pick Surprise me and a random meme is drawn from the archive at the moment of reveal, or pick I choose and set the exact name, ticker, image and description the coin becomes.</p></details>
     <details><summary>Which wallets work?</summary><p>Phantom, on Solana mainnet. Install the extension or the mobile app, then press Connect Phantom.</p></details>
     <details><summary>Is this financial advice?</summary><p>No. Meme coins are volatile and can go to zero. Only use funds you can afford to lose.</p></details>
   </div>
