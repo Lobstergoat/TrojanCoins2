@@ -288,35 +288,20 @@
   }
 
   /* ---------- crew ---------- */
-  function soldier(o, frame) {
-    var crest = o.crest[frame], eyes = frame ? '-  -' : '.  .';
-    var L = [
-      '   ' + crest,
-      '   .------.   ',
-      '   | ' + eyes + ' |   ',
-      '   |  ' + o.mouth + '  |   ',
-      '   \'-.__.-\'   ',
-      '  .-|####|-.  ',
-      ' / |######| \\ ',
-      ' | |######| | ',
-      ' o  |_||_|  o ',
-      '    |_||_|    '
-    ].map(function (s) { return pad(s, 15); });
-    var acc = o.acc[frame];
-    return L.map(function (l, n) { return l + (acc[n] || ''); }).join('\n');
-  }
+  var ICONS = {
+    hammer: '<path d="M26 8l14 14-6 6-14-14z"/><path d="M23 25L9 39"/>',
+    mask: '<path d="M8 13c10 4 22 4 32 0v11c0 9-7 16-16 16S8 33 8 24z"/><path d="M14 22q3 2.5 7 0"/><path d="M27 22q3 2.5 7 0"/><path d="M18 31q6 4.5 12 0"/>',
+    eye: '<path d="M4 24c6-10 14-14 20-14s14 4 20 14c-6 10-14 14-20 14S10 34 4 24z"/><circle cx="24" cy="24" r="6.5"/><circle cx="24" cy="24" r="2" fill="currentColor"/>',
+    spear: '<path d="M9 40L33 12"/><path d="M33 12l-3-8 11 4-3 11z"/><path d="M14 33l5 4"/>'
+  };
   var CREW = [
-    { name: 'Epeius', role: 'The builder', job: 'Carves the disguise', crest: ['^^^^^^^   ', '  ^^^^^^^ '], mouth: '<>',
-      acc: [['', '', '', '  _', ' |_|=', '  ||', '  ||', '', '', ''], ['', '  _', ' |_|=', '  ||', '  ||', '', '', '', '', '']],
+    { name: 'Epeius', role: 'The builder', job: 'Carves the disguise', icon: 'hammer',
       say: ['Planks are cheap. Convincing is expensive.', 'Name, ticker, image. I carve all three.', 'It has to look like a gift.'] },
-    { name: 'Sinon', role: 'The storyteller', job: 'Keeps the cover story', crest: ['~~~~~~~   ', '  ~~~~~~~ '], mouth: '~~',
-      acc: [['', '', '', '', '  ||', '  ||', '', '', '', ''], ['', '', '', '', ' ||', ' ||', '', '', '', '']],
+    { name: 'Sinon', role: 'The storyteller', job: 'Keeps the cover story', icon: 'mask',
       say: ['It is a horse. It is a gift. Nothing more.', 'I have never lied. I simply edit.', 'Trust me. Everyone does.'] },
-    { name: 'Odysseus', role: 'The watcher', job: 'Eyes on the market cap', crest: ['=======   ', '  ======= '], mouth: '==',
-      acc: [['', '', '', '', '', ' _|', '/ |', '', '', ''], ['', '', '', '', '', '', ' _|', '/ |', '', '']],
+    { name: 'Odysseus', role: 'The watcher', job: 'Eyes on the market cap', icon: 'eye',
       say: ['Patience. The number only has to move once.', 'I do not guess the moment. I wait for it.', 'Almost. Not yet.'] },
-    { name: 'Neoptolemus', role: 'The opener', job: 'Drops the hatch', crest: ['vvvvvvv   ', '  vvvvvvv '], mouth: '[]',
-      acc: [['', '  /\\', '  ||', '  ||', '  ||', '  ||', '  ||', '  ||', '', ''], ['', '', '  /\\', '  ||', '  ||', '  ||', '  ||', '  ||', '  ||', '']],
+    { name: 'Neoptolemus', role: 'The opener', job: 'Drops the hatch', icon: 'spear',
       say: ['On the signal. Not a heartbeat before.', 'Hatch is oiled. Spear is sharp.', 'Do you hear that? That is the gate.'] }
   ];
   function initCrew() {
@@ -324,15 +309,11 @@
     grid.innerHTML = CREW.map(function (c, i) {
       return '<button type="button" class="soldier rv" data-i="' + i + '">' +
         '<span class="speech" aria-live="polite">' + esc(c.say[0]) + '</span>' +
-        '<pre aria-hidden="true">' + esc(soldier(c, 0)) + '</pre>' +
+        '<span class="ico ico-' + c.icon + '" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + ICONS[c.icon] + '</svg></span>' +
         '<span class="who"><b>' + c.name + '</b><em>' + c.role + '</em></span><span class="job">' + c.job + '</span></button>';
     }).join('');
     $$('.soldier', grid).forEach(function (b) {
-      var c = CREW[+b.dataset.i], pre = $('pre', b), sp = $('.speech', b), f = 0, iv, line = 0;
-      function start() { if (reduced || iv) return; iv = setInterval(function () { f ^= 1; pre.textContent = soldier(c, f); }, 360); }
-      function stop() { clearInterval(iv); iv = null; f = 0; pre.textContent = soldier(c, 0); }
-      b.addEventListener('mouseenter', start); b.addEventListener('mouseleave', stop);
-      b.addEventListener('focus', start); b.addEventListener('blur', stop);
+      var c = CREW[+b.dataset.i], sp = $('.speech', b), line = 0;
       b.addEventListener('click', function () {
         line = (line + 1) % c.say.length; sp.textContent = c.say[line];
         b.classList.remove('talk'); void b.offsetWidth; b.classList.add('talk');

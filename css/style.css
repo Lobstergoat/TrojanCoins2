@@ -414,3 +414,15 @@ input[type=number]::-webkit-inner-spin-button { opacity: .3; }
 .seg-wide button[aria-pressed=true] { background: rgba(217, 98, 43, .1); color: var(--clay-2); box-shadow: inset 0 0 0 1px var(--clay-d); }
 .rev-custom { display: grid; gap: 18px; padding: 20px; border: 1px solid var(--line); border-left: 2px solid var(--clay); border-radius: var(--r); background: var(--bg-2); animation: drop .5s var(--ease); }
 .seal-art img { width: 100%; height: 100%; object-fit: cover; }
+
+/* crew icons */
+.soldier .ico { display: block; width: 76px; height: 76px; margin: 6px auto 22px; color: var(--clay); }
+.soldier .ico svg { width: 100%; height: 100%; overflow: visible; transition: transform .5s var(--ease), color .3s; }
+.soldier:hover .ico { color: var(--clay-2); }
+.soldier.talk .ico svg, .soldier:hover .ico svg { animation: none; }
+.soldier:hover .ico-hammer svg { transform: rotate(-24deg) translate(-2px, 2px); transform-origin: 20% 90%; }
+.soldier:hover .ico-mask svg { transform: rotate(7deg) scale(1.06); }
+.soldier:hover .ico-eye svg { transform: scale(1.12); }
+.soldier:hover .ico-spear svg { transform: translate(5px, -5px); }
+.soldier.talk .ico svg { animation: bump .45s var(--ease); }
+@keyframes bump { 40% { transform: scale(1.14) rotate(-4deg); } }
